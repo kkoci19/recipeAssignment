@@ -25,6 +25,14 @@ class Post:
         return posts
         
     @classmethod
+    def getPostLikes(cls,data):
+        query= 'SELECT  COUNT(likes.id) as nrLikes FROM likes WHERE likes.post_id=%(post_id)s GROUP BY likes.post_id;'
+        results =  connectToMySQL(cls.db_name).query_db(query,data)
+        if results:
+            return results[0]
+        return False
+
+    @classmethod
     def create_post(cls,data):
         query = 'INSERT INTO posts (namePost, description, instruction,date, user_id) VALUES ( %(namePost)s,%(description)s,%(instruction)s,%(date)s, %(user_id)s);'
         return connectToMySQL(cls.db_name).query_db(query, data)
@@ -36,9 +44,10 @@ class Post:
 
     @classmethod
     def get_post_by_id(cls, data):
-        query= 'SELECT * FROM posts WHERE posts.id = %(post_id)s;'
+        query= 'SELECT * FROM posts LEFT JOIN users on posts.user_id=users.id WHERE posts.id = %(post_id)s;'
         results = connectToMySQL(cls.db_name).query_db(query, data)
         return results[0]
+
 
 
     @classmethod

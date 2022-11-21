@@ -23,6 +23,13 @@
         <p>Recipe Instruction: {{post.instruction}}</p>
         <p>Recipe Date Signed At: {{post.date}}</p>
         <p><i><u>Created at: {{post.created_at}}</i></u></p>
+        <p>Recipe created by: {{post.name}} {{post.lastName}}</p>
+        {% if nrLikes %}
+        <p>Number of likes: {{nrLikes.nrLikes}}</p>
+        {% else %}
+        <p>Number of likes: 0</p>
+        {% endif %}
+
         <div class="d-flex m-auto justify-content-evenly bg-light p-2 align-items-center">
             {% if post.user_id == loggedUser.id %}
             <a class="btn btn-primary" href="/update/{{post.id}}">Update Recipe</a>

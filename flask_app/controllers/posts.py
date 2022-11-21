@@ -87,4 +87,5 @@ def singlePost(id):
     }
     user = User.get_user_by_id(data)
     post = Post.get_post_by_id(data)
-    return render_template('singlePost.html', post=post, loggedUser=user)
+    nrLikes=Post.getPostLikes(data)
+    return render_template('singlePost.html', post=post, loggedUser=user, nrLikes=nrLikes)
