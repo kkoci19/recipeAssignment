@@ -3,13 +3,10 @@ from flask import flash
 
 #Creation of the class of Post
 class Post:
-    db_name='recipeAssig' # Our database name in the workbench
+    db_name='beltExam' # Our database name in the workbench
     def __init__(self,data):
         self.id = data['id'],
-        self.namePost = data['name'],
         self.description = data['description'],
-        self.instruction = data['instruction'],
-        self.date = data['date'],
         self.user_id = data['user_id'],
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
@@ -34,12 +31,12 @@ class Post:
 
     @classmethod
     def create_post(cls,data):
-        query = 'INSERT INTO posts (namePost, description, instruction,date, user_id) VALUES ( %(namePost)s,%(description)s,%(instruction)s,%(date)s, %(user_id)s);'
+        query = 'INSERT INTO posts ( description, user_id) VALUES ( %(description)s, %(user_id)s);'
         return connectToMySQL(cls.db_name).query_db(query, data)
     
     @classmethod
     def update_post(cls,data):
-        query = 'UPDATE posts SET namePost=%(namePost)s, description=%(description)s, instruction=%(instruction)s,date=%(date)s, user_id=%(user_id)s WHERE posts.id=%(post_id)s;'
+        query = 'UPDATE posts SET description=%(description)s, user_id=%(user_id)s WHERE posts.id=%(post_id)s;'
         return connectToMySQL(cls.db_name).query_db(query, data)
 
     @classmethod
@@ -47,8 +44,6 @@ class Post:
         query= 'SELECT * FROM posts LEFT JOIN users on posts.user_id=users.id WHERE posts.id = %(post_id)s;'
         results = connectToMySQL(cls.db_name).query_db(query, data)
         return results[0]
-
-
 
     @classmethod
     def get_user_posts(cls, data):
@@ -81,16 +76,7 @@ class Post:
     @staticmethod
     def validate_post(post):
         is_valid = True
-        if len(post['namePost']) < 2:
-            flash("Recipe name must be at least 2 characters.", 'namePost')
-            is_valid = False
         if len(post['description']) < 2:
-            flash("Recipe description must be at least 2 characters.", 'description')
-            is_valid = False
-        if len(post['instruction']) < 2:
-            flash("Recipe instruction  must be at least 2 characters.", 'instruction')
-            is_valid = False
-        if post['date']=='':
-            flash("Recipe date must not be empty.", 'date')
+            flash("Thought must not be empty!", 'description')
             is_valid = False
         return is_valid

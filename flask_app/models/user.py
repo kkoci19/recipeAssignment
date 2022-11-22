@@ -4,14 +4,13 @@ import re	# the regex module
 # create a regular expression object that we'll use later   
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$') 
 class User:
-    db_name='recipeAssig'
+    db_name='beltExam'
     def __init__(self,data):
         self.id = data['id'],
         self.email = data['email'],
-        self.namePost = data['namePost'],
-        self.lastName = data['lastName']
-        self.password = data['password']
-        self.created_at = data['created_at']
+        self.lastName = data['lastName'],
+        self.password = data['password'],
+        self.created_at = data['created_at'],
         self.updated_at = data['updated_at']
     
     @classmethod
@@ -68,11 +67,11 @@ class User:
         if not EMAIL_REGEX.match(user['email']): 
             flash("Invalid email address!", 'emailSignUp')
             is_valid = False
-        if len(user['name']) < 3:
-            flash("Name must be at least 3 characters.", 'name')
+        if len(user['name']) < 2:
+            flash("Name must be at least 2 characters.", 'name')
             is_valid = False
-        if len(user['lastName']) < 3:
-            flash("Last name be at least 3 characters.", 'lastName')
+        if len(user['lastName']) < 2:
+            flash("Last name be at least 2 characters.", 'lastName')
             is_valid = False
         if len(user['password']) < 8:
             flash("Password be at least 8 characters.", 'passwordRegister')
